@@ -67,7 +67,7 @@ function App() {
           <div className="app-logo-icon">
             <FileEarmarkText size={18} />
           </div>
-          InvoiceDApp
+          Invoice Tracker
         </div>
         <div className="d-flex align-items-center gap-2">
           <Button variant="light" size="sm" onClick={() => setShowMenu(true)}
