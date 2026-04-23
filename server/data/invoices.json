@@ -48,32 +48,35 @@
     "date": "2026-03-31",
     "period": "2026-03",
     "vacations": 1,
-    "workdays": 21,
-    "total": 23,
-    "vat": 0,
-    "ttp": 23,
+    "workdays": 44,
+    "total": 600,
+    "vat": 20,
+    "ttp": 720,
     "status": "Paid",
     "walletAddress": "",
     "txHash": "0x8e30b32a3af273b0c488f3fe1c64205fec3d7459eeeac024b28c457cd23fa01c",
     "invoiceEntries": [
       {
         "id": 1,
-        "serviceName": "",
-        "quantity": 1,
-        "cost": 23
+        "serviceName": "Stuff",
+        "quantity": 30,
+        "cost": 600
       }
     ],
-    "id": 1776886428236
+    "id": 1776886428236,
+    "fromDate": "2026-03-03",
+    "toDate": "2026-04-16",
+    "pricePerHour": 20
   },
   {
     "number": 4,
-    "date": "2026-07-28",
+    "date": "2026-04-23",
     "period": "2026-04",
-    "vacations": 0,
-    "workdays": 22,
-    "total": 138,
-    "vat": 5,
-    "ttp": 144.9,
+    "vacations": 3,
+    "workdays": 11,
+    "total": 150,
+    "vat": 20,
+    "ttp": 180,
     "status": "Paid",
     "walletAddress": "",
     "txHash": "0x9f13ee85ad12aebe69aef21f4a01921c713e2b3e00d56078c00e763fbdcd9420",
@@ -81,10 +84,13 @@
       {
         "id": 1,
         "serviceName": "",
-        "quantity": 6,
-        "cost": 138
+        "quantity": 10,
+        "cost": 150
       }
     ],
-    "id": 1776958668081
+    "id": 1776958668081,
+    "pricePerHour": 15,
+    "fromDate": "2026-04-01",
+    "toDate": "2026-04-14"
   }
 ]

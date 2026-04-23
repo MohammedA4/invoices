@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import CreateInvoiceForm from './forms/CreateInvoiceForm';
 import EditInvoiceForm from './forms/EditInvoiceForm';
 
-const PRICE_PER_HOUR = 23;
+const PRICE_PER_HOUR = 0;
 
 function InvoiceModal({ invoices, setInvoices, selectedInvoice, setSelectedInvoice, showModal, setShowModal, fetchInvoices, walletAddress }) {
 
@@ -16,9 +16,11 @@ function InvoiceModal({ invoices, setInvoices, selectedInvoice, setSelectedInvoi
     return {
       number: lastNumber + 1,
       date,
-      period,
+      fromDate: '',
+      toDate: '',
       vacations: 0,
-      workdays: 22,
+      workdays: 0,
+      pricePerHour: 0,
       total: 0,
       vat: 0,
       ttp: 0,
@@ -44,12 +46,12 @@ function InvoiceModal({ invoices, setInvoices, selectedInvoice, setSelectedInvoi
     <Modal show={showModal} onShow={onShowModal} onHide={handleCloseModal}
       backdrop='static' keyboard={false} size='lg'>
       <Modal.Dialog>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Invoice #{selectedInvoice ? selectedInvoice.number : newInvoice.number}
+        <Modal.Header closeButton style={{ background: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+          <Modal.Title style={{ fontWeight: 700, fontSize: '1rem', color: '#1E293B' }}>
+            {selectedInvoice ? `Edit Invoice #${selectedInvoice.number}` : `New Invoice #${newInvoice.number}`}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ background: '#F8FAFC', padding: '1.5rem' }}>
           {selectedInvoice
             ? <EditInvoiceForm handleCloseModal={handleCloseModal} fetchInvoices={fetchInvoices}
                 selectedInvoice={selectedInvoice} setSelectedInvoice={setSelectedInvoice}

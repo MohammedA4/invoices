@@ -4,8 +4,9 @@ import InvoiceList from './components/invoice/list/InvoiceList';
 import InvoicePagination from './components/invoice/InvoicePagination';
 import InvoiceSideMenu from './components/invoice/InvoiceSideMenu';
 import InvoiceModal from './components/invoice/InvoiceModal';
-import { Container, Button, Badge } from "react-bootstrap";
-import { PlusLg, List, Wallet2 } from "react-bootstrap-icons";
+import { Button } from "react-bootstrap";
+import { PlusLg, Wallet2, List, FileEarmarkText } from "react-bootstrap-icons";
+import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const API_URL = 'http://localhost:8080/invoice';
@@ -28,12 +29,11 @@ function App() {
   useEffect(() => { fetchInvoices(); }, []);
 
   const connectWallet = async () => {
-    if (!window.ethereum) return alert('MetaMask is not installed. Please install it to use blockchain features.');
+    if (!window.ethereum) return alert('MetaMask is not installed.');
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     setWalletAddress(accounts[0]);
   };
 
-  // Keep wallet in sync if user switches accounts in MetaMask
   useEffect(() => {
     if (!window.ethereum) return;
     window.ethereum.on('accountsChanged', (accounts) => {
@@ -59,46 +59,63 @@ function App() {
   }, {});
 
   return (
-    <Container fluid className='h-100'>
-      <Button variant="light" size="lg" onClick={() => setShowMenu(true)}
-        className='p-3 mx-2 border border-1 rounded-circle shadow position-fixed' style={{ zIndex: 10 }}>
-        <List size='30' className='text-black-50' />
-      </Button>
+    <div style={{ minHeight: '100vh', background: '#F1F5F9' }}>
 
+      {/* Navbar */}
+      <nav className="app-navbar">
+        <div className="app-logo" onClick={() => setShowMenu(true)}>
+          <div className="app-logo-icon">
+            <FileEarmarkText size={18} />
+          </div>
+          InvoiceDApp
+        </div>
+        <div className="d-flex align-items-center gap-2">
+          <Button variant="light" size="sm" onClick={() => setShowMenu(true)}
+            style={{ border: '1px solid #E2E8F0', borderRadius: '8px', color: '#64748B' }}>
+            <List size={18} />
+          </Button>
+          {walletAddress
+            ? <div className="wallet-badge">
+                <Wallet2 size={14} />
+                {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+              </div>
+            : <button className="btn btn-connect" onClick={connectWallet}>
+                <Wallet2 size={14} className="me-1" /> Connect Wallet
+              </button>
+          }
+          <button className="btn btn-create" onClick={openModalForCreate}>
+            <PlusLg size={16} className="me-1" /> Create Invoice
+          </button>
+        </div>
+      </nav>
+
+      {/* Sidebar */}
       <InvoiceSideMenu showMenu={showMenu} setShowMenu={setShowMenu}
         totalInvoices={invoices.length} totalEarned={totalEarned}
         statusCounts={statusCounts} walletAddress={walletAddress} />
 
-      <div className='w-75 mx-auto mt-3 border border-1 rounded-3 shadow' style={{ minHeight: "95vh" }}>
-        <header className='p-4 d-flex justify-content-between align-items-center'>
-          <h1>Invoices</h1>
-          <div className='d-flex gap-2 align-items-center'>
-            {walletAddress
-              ? <Badge bg="success" className='p-2'>
-                  <Wallet2 className='me-1' />
-                  {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-                </Badge>
-              : <Button variant="outline-secondary" onClick={connectWallet} className='ps-3 pe-3'>
-                  <Wallet2 className='me-1' /> Connect Wallet
-                </Button>
-            }
-            <Button variant="primary" onClick={openModalForCreate} className='ps-3 pe-4'>
-              <PlusLg /> Create
-            </Button>
+      {/* Main */}
+      <div className="main-content">
+        <div className="invoice-card">
+          <div className="invoice-card-header">
+            <h1>Invoices</h1>
+            <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>
+              {invoices.length} total
+            </span>
           </div>
-        </header>
 
-        <InvoiceList invoices={paginatedInvoices} openModalForEdit={openModalForEdit}
-          openModalForCreate={openModalForCreate} />
+          <InvoiceList invoices={paginatedInvoices} openModalForEdit={openModalForEdit}
+            openModalForCreate={openModalForCreate} />
 
-        <InvoicePagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          <InvoicePagination currentPage={safePage} totalPages={totalPages} onPageChange={setCurrentPage} />
+        </div>
       </div>
 
       <InvoiceModal invoices={invoices} setInvoices={setInvoices}
         selectedInvoice={selectedInvoice} setSelectedInvoice={setSelectedInvoice}
         showModal={showModal} setShowModal={setShowModal}
         fetchInvoices={fetchInvoices} walletAddress={walletAddress} />
-    </Container>
+    </div>
   );
 }
 
