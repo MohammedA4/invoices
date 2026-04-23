@@ -1,26 +1,21 @@
 import { Pagination } from "react-bootstrap";
 
-function InvoicePagination(props) {
-    let currentPage = 2;
-    let numberOfPages = 8;
-    let paginationItems = [];
-    for (let number = 1; number <= numberOfPages; number++) {
-      paginationItems.push(
-        <Pagination.Item key={number} active={number === currentPage}>
-          {number}
-        </Pagination.Item>,
-      );
-    }
+function InvoicePagination({ currentPage, totalPages, onPageChange }) {
+  if (totalPages <= 1) return null;
 
-    return (
-      <Pagination className='justify-content-center fixed-bottom mb-4'>
-        <Pagination.First />
-        <Pagination.Ellipsis disabled />
-        {paginationItems}
-        <Pagination.Ellipsis disabled />
-        <Pagination.Last />
-      </Pagination>
-    )
-};
+  return (
+    <Pagination className='justify-content-center mt-3 mb-4'>
+      <Pagination.First disabled={currentPage === 1} onClick={() => onPageChange(1)} />
+      <Pagination.Prev disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} />
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+        <Pagination.Item key={n} active={n === currentPage} onClick={() => onPageChange(n)}>
+          {n}
+        </Pagination.Item>
+      ))}
+      <Pagination.Next disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)} />
+      <Pagination.Last disabled={currentPage === totalPages} onClick={() => onPageChange(totalPages)} />
+    </Pagination>
+  );
+}
 
 export default InvoicePagination;

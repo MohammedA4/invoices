@@ -3,77 +3,60 @@ import { Modal } from "react-bootstrap";
 import CreateInvoiceForm from './forms/CreateInvoiceForm';
 import EditInvoiceForm from './forms/EditInvoiceForm';
 
-function InvoiceModal(props) {
+const PRICE_PER_HOUR = 23;
 
-  const price = 23;
+function InvoiceModal({ invoices, setInvoices, selectedInvoice, setSelectedInvoice, showModal, setShowModal, fetchInvoices, walletAddress }) {
 
-  // Input data
-  const invoices = props.invoices;
-  const setInvoices = props.setInvoices;
-  const selectedInvoice = props.selectedInvoice;
-  const setSelectedInvoice = props.setSelectedInvoice;
-  const showModal = props.showModal;
-  const setShowModal = props.setShowModal;
-
-  // Functions
-  const countNewInvoice = () => {
-    const currentDate = new Date();
-    const defaultInvoiceDate = currentDate.toISOString().split('T')[0];
-
-    const prevMonthDate = new Date(currentDate);
-    prevMonthDate.setMonth(currentDate.getMonth() - 1);
-    const defaultInvoicePeriod = prevMonthDate.toISOString().substring(0, 7);
-
-    const defaultInvoiceNumber = invoices[invoices.length - 1]?.number + 1;
-
+  const buildNewInvoice = () => {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0];
+    const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const period = prevMonth.toISOString().substring(0, 7);
+    const lastNumber = invoices.length > 0 ? Math.max(...invoices.map(i => i.number || 0)) : 0;
     return {
-      id: 0,
-      number: defaultInvoiceNumber,
-      date: defaultInvoiceDate,
-      period: defaultInvoicePeriod,
+      number: lastNumber + 1,
+      date,
+      period,
       vacations: 0,
       workdays: 22,
       total: 0,
       vat: 0,
       ttp: 0,
-      invoiceEntries: [
-        {
-          id: 1,
-          serviceName: "The services of software development from 01.06.2023 to 30.06.2023",
-          quantity: 0,
-          cost: 0
-        }
-      ]
+      status: 'Pending',
+      walletAddress: '',
+      txHash: '',
+      invoiceEntries: [{ id: 1, serviceName: '', quantity: 0, cost: 0 }]
     };
-  }
+  };
+
+  const [newInvoice, setNewInvoice] = useState(buildNewInvoice);
 
   const onShowModal = () => {
-    if (!selectedInvoice) {
-      setNewInvoice(countNewInvoice);
-    }
-  }
+    if (!selectedInvoice) setNewInvoice(buildNewInvoice());
+  };
 
   const handleCloseModal = () => {
     setSelectedInvoice(null);
     setShowModal(false);
-  }
-
-  const [newInvoice, setNewInvoice] = useState(countNewInvoice);
+  };
 
   return (
-    <Modal id='invoice-modal' show={showModal} onShow={onShowModal} onHide={handleCloseModal} backdrop='static' keyboard={false}
-      size='lg'>
-      <Modal.Dialog id="invoice-modal-dialog">
+    <Modal show={showModal} onShow={onShowModal} onHide={handleCloseModal}
+      backdrop='static' keyboard={false} size='lg'>
+      <Modal.Dialog>
         <Modal.Header closeButton>
-          <Modal.Title>Invoice #{selectedInvoice ? selectedInvoice.number : newInvoice.number}</Modal.Title>
+          <Modal.Title>
+            Invoice #{selectedInvoice ? selectedInvoice.number : newInvoice.number}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {
-            selectedInvoice
-              ? <EditInvoiceForm invoices={invoices} setInvoices={setInvoices} handleCloseModal={handleCloseModal}
-                selectedInvoice={selectedInvoice} setSelectedInvoice={setSelectedInvoice} price={price} />
-              : <CreateInvoiceForm invoices={invoices} setInvoices={setInvoices} handleCloseModal={handleCloseModal}
-                newInvoice={newInvoice} setNewInvoice={setNewInvoice} price={price} />
+          {selectedInvoice
+            ? <EditInvoiceForm handleCloseModal={handleCloseModal} fetchInvoices={fetchInvoices}
+                selectedInvoice={selectedInvoice} setSelectedInvoice={setSelectedInvoice}
+                price={PRICE_PER_HOUR} walletAddress={walletAddress} />
+            : <CreateInvoiceForm handleCloseModal={handleCloseModal} fetchInvoices={fetchInvoices}
+                newInvoice={newInvoice} setNewInvoice={setNewInvoice}
+                price={PRICE_PER_HOUR} />
           }
         </Modal.Body>
       </Modal.Dialog>

@@ -1,0 +1,90 @@
+[
+  {
+    "number": 1,
+    "date": "2026-04-21",
+    "period": "2026-03",
+    "vacations": 0,
+    "workdays": 22,
+    "total": 230,
+    "vat": 5,
+    "ttp": 241.5,
+    "status": "Paid",
+    "walletAddress": "0x1943E0912FBFe11E3605c35a1B8fE0a341d1329A",
+    "txHash": "",
+    "invoiceEntries": [
+      {
+        "id": 1,
+        "serviceName": "",
+        "quantity": 10,
+        "cost": 230
+      }
+    ],
+    "id": 1776786625618
+  },
+  {
+    "number": 2,
+    "date": "2026-04-30",
+    "period": "2026-03",
+    "vacations": 3,
+    "workdays": 19,
+    "total": 1265,
+    "vat": 20,
+    "ttp": 1518,
+    "status": "Cancelled",
+    "walletAddress": "0x1943E0912FBFe11E3605c35a1B8fE0a341d1329A",
+    "txHash": "0xbaa63bae7cc3785a81ac6652a2fb215d7b9d97246f52c54d3ac88f8e5c336abe",
+    "invoiceEntries": [
+      {
+        "id": 1,
+        "serviceName": "",
+        "quantity": 55,
+        "cost": 1265
+      }
+    ],
+    "id": 1776882445672
+  },
+  {
+    "number": 3,
+    "date": "2026-03-31",
+    "period": "2026-03",
+    "vacations": 1,
+    "workdays": 21,
+    "total": 23,
+    "vat": 0,
+    "ttp": 23,
+    "status": "Paid",
+    "walletAddress": "",
+    "txHash": "0x8e30b32a3af273b0c488f3fe1c64205fec3d7459eeeac024b28c457cd23fa01c",
+    "invoiceEntries": [
+      {
+        "id": 1,
+        "serviceName": "",
+        "quantity": 1,
+        "cost": 23
+      }
+    ],
+    "id": 1776886428236
+  },
+  {
+    "number": 4,
+    "date": "2026-07-28",
+    "period": "2026-04",
+    "vacations": 0,
+    "workdays": 22,
+    "total": 138,
+    "vat": 5,
+    "ttp": 144.9,
+    "status": "Paid",
+    "walletAddress": "",
+    "txHash": "0x9f13ee85ad12aebe69aef21f4a01921c713e2b3e00d56078c00e763fbdcd9420",
+    "invoiceEntries": [
+      {
+        "id": 1,
+        "serviceName": "",
+        "quantity": 6,
+        "cost": 138
+      }
+    ],
+    "id": 1776958668081
+  }
+]

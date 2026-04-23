@@ -16,6 +16,7 @@ function InvoiceList(props) {
                                 <th>Period</th>
                                 <th>Days worked</th>
                                 <th>Total to pay</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>

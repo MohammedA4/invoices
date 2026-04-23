@@ -1,16 +1,23 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+import { Badge } from 'react-bootstrap';
 
-function InvoiceListItem(props) {
-    return (
-            <tr className='cursor-pointer' onClick={() => props.openModalForEdit(props.invoice)}>
-                <td className='ps-5'>{props.invoice.number}</td>
-                <td>{props.invoice.date}</td>
-                <td>{props.invoice.period}</td>
-                <td>{props.invoice.workdays}</td>
-                <td>{props.invoice.ttp}.00 $</td>
-            </tr>
-    );
+const STATUS_VARIANT = { Pending: 'warning', Paid: 'success', Cancelled: 'danger' };
+
+function InvoiceListItem({ invoice, openModalForEdit }) {
+  return (
+    <tr style={{ cursor: 'pointer' }} onClick={() => openModalForEdit(invoice)}>
+      <td className='ps-5'>{invoice.number}</td>
+      <td>{invoice.date}</td>
+      <td>{invoice.period}</td>
+      <td>{invoice.workdays}</td>
+      <td>{Number(invoice.ttp).toFixed(2)} $</td>
+      <td>
+        <Badge bg={STATUS_VARIANT[invoice.status] || 'secondary'}>
+          {invoice.status || 'Pending'}
+        </Badge>
+      </td>
+    </tr>
+  );
 }
 
 export default InvoiceListItem;
